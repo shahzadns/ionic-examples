@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>02-todo-list</title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/todos.controller.js"></script>
+    <script src="js/util.directives.js"></script>
+  </head>
+
+  <body ng-app="starter">
+    <ion-pane ng-controller="TodosCtrl">
+      <ion-header-bar class="bar-stable">
+        <div class="buttons">
+          <button class="button button-icon icon ion-ios-minus-outline"
+                  ng-click="statesObj.showDelete = !statesObj.showDelete; statesObj.showReorder = false;"></button>
+        </div>
+        <h1 class="title">TODO List</h1>
+        <div class="buttons">
+          <button class="button" 
+                  ng-click="statesObj.showReorder = !statesObj.showReorder; statesObj.showDelete = false;">Reorder</button>
+        </div>
+      </ion-header-bar>
+      <ion-content>
+       
+        <ion-list 
+          show-reorder="statesObj.showReorder"
+          show-delete="statesObj.showDelete">
+          <div class="item item-input-inset">
+            <form class="row" ng-submit="addTodo()">
+              <label class="item-input-wrapper">
+                <input type="text" class="col" maxlength="40"
+                      placeholder="Add todo here..."
+                      auto-focus=""
+                      ng-keyup="onInputKeyUp($event)"
+                      ng-model="currentTodo.text">
+              </label>
+              <button class="button button-small"  
+                      ng-class="statesObj.editMode ? 'button-calm': 'button-balanced'"
+                      ng-disabled="currentTodo.text.length < 3">
+                <span ng-bind="statesObj.editMode ? 'Update': 'Add'"></span>
+              </button>
+            </form>
+          </div>
+          <ion-item ng-repeat="todo in todos" ng-class="{'being-edit': statesObj.editMode && statesObj.recentEditIndex === $index}">
+            {{todo.text}}
+            <ion-option-button class="button-positive"ng-click="editTodo(todo, $index)">
+              Edit
+            </ion-option-button>
+            <ion-delete-button class="ion-minus-circled" ng-click="deleteTodo(todo, $index)">
+            </ion-delete-button>
+            <ion-reorder-button class="ion-navicon"
+                        on-reorder="reorderTodo(todo, $fromIndex, $toIndex)">
+            </ion-reorder-button>
+          </ion-item>
+        </ion-list>
+
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
