@@ -60,7 +60,7 @@
           </div>
           <ion-item ng-repeat="todo in todos" ng-class="{'being-edit': statesObj.editMode && statesObj.recentEditIndex === $index}">
             {{todo.text}}
-            <ion-option-button class="button-positive"ng-click="editTodo(todo, $index)">
+            <ion-option-button class="button-positive" ng-click="editTodo(todo, $index)">
               Edit
             </ion-option-button>
             <ion-delete-button class="ion-minus-circled" ng-click="deleteTodo(todo, $index)">
